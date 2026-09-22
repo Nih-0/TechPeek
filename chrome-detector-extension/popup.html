@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TechPeek — Tech Stack Detector</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-light: #ffffff;
+      --text-main: #1f2937;
+      --text-muted: #6b7280;
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --header-bg: #4312a3;
+      --link-color: #4f46e5;
+      --icon-bg: #f3f4f6;
+      --border-color: #e5e7eb;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-main);
+      margin: 0;
+      padding: 0;
+      width: 480px;
+      min-height: 240px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(135deg, #4312a3 0%, #5b21b6 100%);
+      padding: 12px 18px;
+      color: white;
+    }
+
+    header .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    header h1 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .badge-tag {
+      font-size: 0.65rem;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    button#refresh {
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 6px;
+      padding: 5px 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    button#refresh:hover {
+      background: rgba(255, 255, 255, 0.28);
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border-color);
+      background: #fafafa;
+    }
+    .tab {
+      padding: 10px 18px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+    .tab.active {
+      color: var(--header-bg);
+      background: white;
+      border-bottom: 2px solid var(--header-bg);
+    }
+
+    /* Content Area */
+    .content-area {
+      padding: 18px;
+    }
+
+    /* Loader */
+    #loader {
+      display: none;
+      text-align: center;
+      padding: 30px 0;
+    }
+    .spinner {
+      width: 24px;
+      height: 24px;
+      border: 3px solid #e5e7eb;
+      border-radius: 50%;
+      border-top-color: var(--primary);
+      animation: spin 1s linear infinite;
+      margin: 0 auto 10px auto;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    
+    #status-text {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      text-align: center;
+    }
+
+    /* Multi-column layout for categories */
+    #tech-list-container {
+      column-count: 2;
+      column-gap: 20px;
+    }
+
+    .category-group {
+      break-inside: avoid;
+      margin-bottom: 20px;
+    }
+
+    .category-header {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      font-weight: 700;
+      border-bottom: 1px solid #f3f4f6;
+      padding-bottom: 4px;
+    }
+
+    .tech-items-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .tech-card {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .tech-icon-wrapper {
+      width: 26px;
+      height: 26px;
+      background: var(--icon-bg);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .tech-icon {
+      width: 16px;
+      height: 16px;
+      object-fit: contain;
+    }
+    
+    .tech-icon-fallback {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .tech-name {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text-main);
+    }
+
+    .tech-version {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: #9ca3af;
+      background: #f3f4f6;
+      padding: 1px 5px;
+      border-radius: 3px;
+      margin-left: 6px;
+    }
+
+    .empty-state {
+      color: var(--text-muted);
+      font-style: italic;
+      font-size: 0.85rem;
+      text-align: center;
+      padding: 24px 0;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-color);
+      background: #f9fafb;
+      padding: 10px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    footer a {
+      color: var(--link-color);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <img src="icons/icon48.png" alt="TechPeek" width="24" height="24" style="border-radius: 6px; display: block;" />
+      <h1>TechPeek</h1>
+      <span class="badge-tag">v1.0</span>
+    </div>
+    <button id="refresh">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
+      </svg>
+      Rescan
+    </button>
+  </header>
+
+  <div class="tabs">
+    <div class="tab active">Technologies Detected</div>
+  </div>
+
+  <div class="content-area">
+    <div id="loader">
+      <div class="spinner"></div>
+      <div id="status-text">Scanning website stack...</div>
+    </div>
+
+    <div id="tech-list-container">
+      <!-- Categories injected here -->
+    </div>
+  </div>
+
+  <footer>
+    <span>TechPeek — Open Wappalyzer Alternative</span>
+    <span>
+      <a href="https://www.linkedin.com/in/nihal-yadav-" target="_blank">LinkedIn</a> • 
+      <a href="mailto:varunbb30@gmail.com" target="_blank">Feedback</a>
+    </span>
+  </footer>
+
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="256" y2="256" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#070a12"/>
+      <stop offset="50%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    
+    <linearGradient id="blueGlow" x1="20" y1="20" x2="236" y2="236" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="50%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+
+    <linearGradient id="borderGrad" x1="0" y1="0" x2="256" y2="256" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#1e293b" stop-opacity="0.3"/>
+    </linearGradient>
+
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Outer Rounded Container -->
+  <rect x="8" y="8" width="240" height="240" rx="54" fill="url(#bgGrad)"/>
+  <rect x="8" y="8" width="240" height="240" rx="54" stroke="url(#borderGrad)" stroke-width="4"/>
+
+  <!-- Subtle grid / tech circuit lines -->
+  <circle cx="128" cy="128" r="90" stroke="#38bdf8" stroke-opacity="0.08" stroke-width="2"/>
+  <circle cx="128" cy="128" r="110" stroke="#2563eb" stroke-opacity="0.05" stroke-dasharray="6 6" stroke-width="2"/>
+
+  <!-- TP Monogram -->
+  <g filter="url(#glow)">
+    <!-- Letter T -->
+    <path d="M48 76 C48 70, 52 66, 58 66 H126 C132 66, 136 70, 136 76 V92 C136 98, 132 102, 126 102 H106 V180 C106 186, 102 190, 96 190 H78 C72 190, 68 186, 68 180 V102 H58 C52 102, 48 98, 48 92 V76 Z" fill="url(#blueGlow)"/>
+
+    <!-- Letter P -->
+    <path d="M128 66 H178 C204 66, 222 84, 222 110 C222 136, 204 154, 178 154 H154 V180 C154 186, 150 190, 144 190 H126 C120 190, 116 186, 116 180 V78 C116 71.4, 121.4 66, 128 66 Z M154 98 V122 H174 C184 122, 190 117, 190 110 C190 103, 184 98, 174 98 H154 Z" fill="#ffffff"/>
+  </g>
+
+  <!-- Modern Accent Dot -->
+  <circle cx="204" cy="178" r="10" fill="#38bdf8"/>
+</svg>
